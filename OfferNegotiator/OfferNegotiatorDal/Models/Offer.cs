@@ -11,12 +11,12 @@ public class Offer
     public decimal Price { get; init; }
     public OfferState State { get; set; }
 
-    public Offer(Guid clientId, Guid productId, decimal price, OfferState state)
+    public Offer(Guid clientId, Guid productId, decimal price)
     {
         Id = Guid.NewGuid();
         ClientId = clientId;
         ProductId = productId;
         Price = price;
-        State = state;
+        State = OfferState.Pending;
     }
 }

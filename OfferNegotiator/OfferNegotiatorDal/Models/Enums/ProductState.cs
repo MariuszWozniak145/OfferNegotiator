@@ -2,6 +2,6 @@
 
 public enum ProductState
 {
-    Sold,
-    Available
+    Available,
+    Sold
 }

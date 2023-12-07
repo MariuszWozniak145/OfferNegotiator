@@ -10,11 +10,11 @@ public class Product
     public ProductState State { get; set; }
     public List<Offer> Offers { get; init; } = new();
 
-    public Product(string name, decimal price, ProductState state)
+    public Product(string name, decimal price)
     {
         Id = Guid.NewGuid();
         Name = name;
         Price = price;
-        State = state;
+        State = ProductState.Available;
     }
 }
