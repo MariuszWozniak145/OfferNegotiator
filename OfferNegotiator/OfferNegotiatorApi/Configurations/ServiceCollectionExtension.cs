@@ -9,5 +9,7 @@ public static class ServiceCollectionExtension
     {
         services.AddDbContext<OfferNegotiatorContext>(options =>
             options.UseInMemoryDatabase(databaseName: "OfferNegotiator"));
+        services.AddDbContext<UsersContext>(options =>
+            options.UseInMemoryDatabase(databaseName: "OfferNegotiatorUsers"));
     }
 }
