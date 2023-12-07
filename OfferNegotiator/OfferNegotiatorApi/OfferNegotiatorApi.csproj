@@ -15,11 +15,11 @@
   </ItemGroup>
 
   <ItemGroup>
-    <Folder Include="Controllers\" />
+    <ProjectReference Include="..\OfferNegotiatorLogic\OfferNegotiatorLogic.csproj" />
   </ItemGroup>
 
   <ItemGroup>
-    <ProjectReference Include="..\OfferNegotiatorLogic\OfferNegotiatorLogic.csproj" />
+    <Folder Include="Controllers\" />
   </ItemGroup>
 
 </Project>

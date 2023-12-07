@@ -19,6 +19,8 @@ if (app.Environment.IsDevelopment())
     app.UseSwaggerUI();
 }
 
+app.SeedOfferNegotiatorDatabase().Wait();
+app.SeedUserDatabase().Wait();
 app.UseHttpsRedirection();
 app.UseAuthentication();
 app.UseAuthorization();
