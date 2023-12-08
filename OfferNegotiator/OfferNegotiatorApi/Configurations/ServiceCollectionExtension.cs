@@ -9,6 +9,7 @@ using OfferNegotiatorDal.Repositories.Interfaces;
 using OfferNegotiatorLogic.Services.Interfaces;
 using OfferNegotiatorLogic.Services;
 using System.Text;
+using System.Reflection;
 
 namespace OfferNegotiatorApi.Configurations;
 
@@ -84,6 +85,10 @@ public static class ServiceCollectionExtension
                     Email = "mariuszwozniak145@gmail.com",
                 }
             });
+            var xmlFilename = $"{Assembly.GetExecutingAssembly().GetName().Name}.xml";
+            Console.WriteLine("xmlFilename");
+            Console.WriteLine(xmlFilename);
+            option.IncludeXmlComments(Path.Combine(AppContext.BaseDirectory, xmlFilename));
 
             option.AddSecurityDefinition("Bearer", new OpenApiSecurityScheme
             {
@@ -94,6 +99,7 @@ public static class ServiceCollectionExtension
                 BearerFormat = "JWT",
                 Scheme = "Bearer"
             });
+
             option.AddSecurityRequirement(new OpenApiSecurityRequirement
             {
                 {

@@ -52,9 +52,9 @@ public class TokenService : ITokenService
 
             return claims;
         }
-        catch (Exception e)
+        catch (Exception ex)
         {
-            throw new InternalIdentityServerException(e.Message);
+            throw new InternalIdentityServerException("Server failed", new List<string>() { ex.Message });
         }
     }
 

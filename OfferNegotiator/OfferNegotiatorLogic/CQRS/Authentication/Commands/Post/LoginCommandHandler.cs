@@ -20,10 +20,10 @@ public class LoginCommandHandler : IRequestHandler<LoginCommand, LoginReadDTO>
     {
         var username = request.LoginCreateDTO.Username;
         var password = request.LoginCreateDTO.Password;
-        var managedUser = await _userManager.FindByNameAsync(username) ?? throw new WrongCredentialsException($"There is no user with the given username: {username}.");
+        var managedUser = await _userManager.FindByNameAsync(username) ?? throw new WrongCredentialsException("Wrong credentials", new List<string>() { $"There is no user with the given username: {username}." });
 
         var isPasswordValid = await _userManager.CheckPasswordAsync(managedUser, password);
-        if (!isPasswordValid) throw new WrongCredentialsException($"Wrong password.");
+        if (!isPasswordValid) throw new WrongCredentialsException("Wrong credentials", new List<string>() { "Wrong password." });
 
         var roles = await _userManager.GetRolesAsync(managedUser);
 
