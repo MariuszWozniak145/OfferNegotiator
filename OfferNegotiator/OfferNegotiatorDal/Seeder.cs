@@ -56,16 +56,19 @@ public static class Seeder
     {
         new Product("Product1", 100),
         new Product("Product2", 200),
-        new Product("Product3", 300)
+        new Product("Product3", 300) { State = Models.Enums.ProductState.Sold},
+        new Product("Product3", 400)
     };
 
     public static readonly List<Offer> Offers = new()
     {
         new Offer(Guid.Parse(Users[1].Id), Products[0].Id, 110),
         new Offer(Guid.Parse(Users[2].Id), Products[0].Id, 90),
-        new Offer(Guid.Parse(Users[1].Id), Products[1].Id, 190),
+        new Offer(Guid.Parse(Users[1].Id), Products[1].Id, 190) {State = Models.Enums.OfferState.Rejected },
         new Offer(Guid.Parse(Users[2].Id), Products[1].Id, 210),
-        new Offer(Guid.Parse(Users[1].Id), Products[2].Id, 315),
-        new Offer(Guid.Parse(Users[2].Id), Products[2].Id, 285)
+        new Offer(Guid.Parse(Users[1].Id), Products[2].Id, 315) {State = Models.Enums.OfferState.Accepted },
+        new Offer(Guid.Parse(Users[2].Id), Products[2].Id, 285) {State = Models.Enums.OfferState.Rejected },
+        new Offer(Guid.Parse(Users[1].Id), Products[3].Id, 385),
+        new Offer(Guid.Parse(Users[2].Id), Products[3].Id, 415)
     };
 }

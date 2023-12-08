@@ -1,5 +1,6 @@
 ﻿using MediatR;
 using Microsoft.AspNetCore.Mvc;
+using OfferNegotiatorDal.Models.Enums;
 using OfferNegotiatorLogic.CQRS.Product.Queries;
 using OfferNegotiatorLogic.DTOs.Exception;
 using OfferNegotiatorLogic.DTOs.Product;
@@ -19,15 +20,15 @@ public class ProductsController : ControllerBase
 
     #region Endpoint Description
     /// <summary>
-    /// Retrieves the products.
+    ///     Retrieves the products.
     /// </summary>
     /// <returns>
-    ///   Returns an HTTP 200 (OK) response with the products.
+    ///     Returns an HTTP 200 (OK) response with the products.
     /// </returns>
     /// <remarks>
-    ///   This endpoint allows you to retrieve products.
-    ///   After a successful retrieval, a response with an HTTP 200 (OK) status code will be
-    ///   returned, and it will contain the products.
+    ///     This endpoint allows you to retrieve products.
+    ///     After a successful retrieval, a response with an HTTP 200 (OK) status code will be
+    ///     returned, and it will contain the products.
     /// </remarks>
     /// <response code="200">The products was successfully retrieved.</response>
     [ProducesResponseType(typeof(List<ProductReadDTO>), StatusCodes.Status200OK)]
@@ -41,17 +42,17 @@ public class ProductsController : ControllerBase
 
     #region Endpoint Description
     /// <summary>
-    /// Retrieves a product with its offers.
+    ///     Retrieves a product with its offers.
     /// </summary>
     /// <param name="id">The unique identifier of the product to be retrieved.</param>
     /// <returns>
-    ///   Returns an HTTP 200 (OK) response with the product and its offers.
+    ///     Returns an HTTP 200 (OK) response with the product and its offers.
     /// </returns>
     /// <remarks>
-    ///   This endpoint allows you to retrieve product with its offers by providing the unique identifier ("id")
-    ///   of the product as a part of the URL route.
-    ///   After a successful retrieval, a response with an HTTP 200 (OK) status code will be
-    ///   returned, and it will contain the product with its offers.
+    ///     This endpoint allows you to retrieve product with its offers by providing the unique identifier ("id")
+    ///     of the product as a part of the URL route.
+    ///     After a successful retrieval, a response with an HTTP 200 (OK) status code will be
+    ///     returned, and it will contain the product with its offers.
     /// </remarks>
     /// <response code="200">The product with the specified "id" and its offers was successfully retrieved.</response>
     /// <response code="404">The product with the specified "id" was not found.</response>
@@ -62,6 +63,50 @@ public class ProductsController : ControllerBase
     public async Task<IActionResult> GetProductWithOffers(Guid id)
     {
         var result = await _mediator.Send(new GetProductWithOffersQuery(id));
+        return Ok(result);
+    }
+
+    #region Endpoint Description
+    /// <summary>
+    ///     Retrieves the available products.
+    /// </summary>
+    /// <returns>
+    ///     Returns an HTTP 200 (OK) response with the available products.
+    /// </returns>
+    /// <remarks>
+    ///     This endpoint allows you to retrieve available products.
+    ///     After a successful retrieval, a response with an HTTP 200 (OK) status code will be
+    ///     returned, and it will contain the available products.
+    /// </remarks>
+    /// <response code="200">The available products was successfully retrieved.</response>
+    [ProducesResponseType(typeof(ProductWithOffersReadDTO), StatusCodes.Status200OK)]
+    #endregion
+    [HttpGet("Available")]
+    public async Task<IActionResult> GetAvailableProducts()
+    {
+        var result = await _mediator.Send(new GetProductWithSpecifiedStateQuery(ProductState.Available));
+        return Ok(result);
+    }
+
+    #region Endpoint Description
+    /// <summary>
+    ///     Retrieves the sold products.
+    /// </summary>
+    /// <returns>
+    ///     Returns an HTTP 200 (OK) response with the sold products.
+    /// </returns>
+    /// <remarks>
+    ///     This endpoint allows you to retrieve sold products.
+    ///     After a successful retrieval, a response with an HTTP 200 (OK) status code will be
+    ///     returned, and it will contain the sold products.
+    /// </remarks>
+    /// <response code="200">The sold products was successfully retrieved.</response>
+    [ProducesResponseType(typeof(ProductWithOffersReadDTO), StatusCodes.Status200OK)]
+    #endregion
+    [HttpGet("Sold")]
+    public async Task<IActionResult> GetSoldProducts()
+    {
+        var result = await _mediator.Send(new GetProductWithSpecifiedStateQuery(ProductState.Sold));
         return Ok(result);
     }
 }
