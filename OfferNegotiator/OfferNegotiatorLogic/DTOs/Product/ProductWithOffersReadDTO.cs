@@ -1,11 +1,13 @@
 ﻿using OfferNegotiatorDal.Models.Enums;
+using OfferNegotiatorLogic.DTOs.Offer;
 
 namespace OfferNegotiatorLogic.DTOs.Product;
 
-public record ProductReadDTO
+public record ProductWithOffersReadDTO
 (
     Guid Id,
     string Name,
     decimal Price,
-    ProductState State
+    ProductState State,
+    List<OfferReadDTO> Offers
 );

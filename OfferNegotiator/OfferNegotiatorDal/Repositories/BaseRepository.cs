@@ -13,16 +13,6 @@ public class BaseRepository<T> : IBaseRepository<T> where T : class
         _dbContext = dbContext;
     }
 
-    public async Task<List<T>> GetAllAsync()
-    {
-        return await _dbContext.Set<T>().ToListAsync();
-    }
-
-    public async Task<T?> GetByIdAsync(Guid id)
-    {
-        return await _dbContext.Set<T>().FindAsync(id);
-    }
-
     public async Task<T> AddAsync(T entity)
     {
         var result = await _dbContext.Set<T>().AddAsync(entity);
