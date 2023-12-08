@@ -1,6 +1,6 @@
 ﻿using MediatR;
 
-namespace OfferNegotiatorLogic.CQRS.Product.Commands;
+namespace OfferNegotiatorLogic.CQRS.Product.Commands.Delete;
 
 public class DeleteProductCommand : IRequest
 {

@@ -40,6 +40,12 @@ public class GlobalExeptionHandlingMiddleware
             status = HttpStatusCode.BadRequest;
             errors = ex.Errors;
         }
+        else if (exeptionType == typeof(ValidationFailedException))
+        {
+            message = ex.Message;
+            status = HttpStatusCode.BadRequest;
+            errors = ex.Errors;
+        }
         else if (exeptionType == typeof(NotFoundException))
         {
             message = ex.Message;
@@ -53,6 +59,12 @@ public class GlobalExeptionHandlingMiddleware
             errors = ex.Errors;
         }
         else if (exeptionType == typeof(InternalIdentityServerException))
+        {
+            message = ex.Message;
+            status = HttpStatusCode.InternalServerError;
+            errors = ex.Errors;
+        }
+        else if (exeptionType == typeof(InternalEntityServerException))
         {
             message = ex.Message;
             status = HttpStatusCode.InternalServerError;

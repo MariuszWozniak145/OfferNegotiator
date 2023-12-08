@@ -2,7 +2,8 @@
 using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Mvc;
 using OfferNegotiatorDal.Models.Enums;
-using OfferNegotiatorLogic.CQRS.Product.Commands;
+using OfferNegotiatorLogic.CQRS.Product.Commands.Delete;
+using OfferNegotiatorLogic.CQRS.Product.Commands.Post;
 using OfferNegotiatorLogic.CQRS.Product.Queries;
 using OfferNegotiatorLogic.DTOs.Exception;
 using OfferNegotiatorLogic.DTOs.Product;
@@ -129,7 +130,7 @@ public class ProductsController : ControllerBase
     /// </remarks>
     /// <response code="204">The product with the specified "id" was successfully deleted, and no content is returned.</response>
     /// <response code="401">User was unauthorized or JWT was invalid.</response>
-    /// <response code="401">User does not have enough permissions (only the employee can remove the product).</response>
+    /// <response code="403">User does not have enough permissions (only the employee can remove the product).</response>
     /// <response code="404">The product with the specified "id" was not found.</response>
     [ProducesResponseType(StatusCodes.Status204NoContent)]
     [ProducesResponseType(StatusCodes.Status401Unauthorized)]
@@ -142,5 +143,39 @@ public class ProductsController : ControllerBase
     {
         await _mediator.Send(new DeleteProductCommand(id));
         return NoContent();
+    }
+
+    #region Endpoint Description
+    /// <summary>
+    ///     Creates a new product.
+    /// </summary>
+    /// <param name="product">Data for creating a new product.</param>
+    /// <returns>
+    ///     Returns an HTTP 201 (Created) response upon successful creation of a new product, along with the product details.
+    /// </returns>
+    /// <remarks>
+    ///     This endpoint allows you to create a new product by providing the necessary product data in the request body using
+    ///     the JSON format. To use this endpoint, ensure that you are authenticated with a valid authorization token
+    ///     and you have enough permissions (only the employee can create the product),  
+    ///     as it is secured with the "Authorize" attribute. After successful creation, a response with an HTTP 201 (Created) status code
+    ///     will be returned, and it will include the details of the newly created product.
+    /// </remarks>
+    /// <response code="201">The new product was successfully created, and its details are returned.</response>
+    /// <response code="400">The creation request was invalid or the product data is incomplete.</response>
+    /// <response code="401">User was unauthorized or JWT was invalid.</response>
+    /// <response code="403">User does not have enough permissions (only the employee can create the product).</response>
+    /// <response code="500">The error occurred on the server side.</response>
+    [ProducesResponseType(typeof(ProductReadDTO), StatusCodes.Status201Created)]
+    [ProducesResponseType(typeof(ExceptionOccuredReadDTO), StatusCodes.Status400BadRequest)]
+    [ProducesResponseType(StatusCodes.Status401Unauthorized)]
+    [ProducesResponseType(StatusCodes.Status403Forbidden)]
+    [ProducesResponseType(typeof(ExceptionOccuredReadDTO), StatusCodes.Status500InternalServerError)]
+    #endregion
+    [HttpPost]
+    [Authorize(Roles = "Employee")]
+    public async Task<IActionResult> CreateOutfit([FromBody] ProductCreateDTO product)
+    {
+        var result = await _mediator.Send(new CreateProductCommand(product));
+        return CreatedAtAction(nameof(GetProductWithOffers), new { id = result.Id }, result);
     }
 }

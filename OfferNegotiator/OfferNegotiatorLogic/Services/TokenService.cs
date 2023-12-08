@@ -55,7 +55,7 @@ public class TokenService : ITokenService
         }
         catch (Exception ex)
         {
-            throw new InternalIdentityServerException("Server failed", new List<string>() { ex.Message });
+            throw new InternalIdentityServerException("Server failed - TokenService", new List<string>() { ex.Message });
         }
     }
 

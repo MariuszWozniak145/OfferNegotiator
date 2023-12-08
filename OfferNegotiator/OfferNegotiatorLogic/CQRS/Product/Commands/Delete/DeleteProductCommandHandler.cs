@@ -2,7 +2,7 @@
 using OfferNegotiatorDal.Exceptions;
 using OfferNegotiatorDal.Repositories.Interfaces;
 
-namespace OfferNegotiatorLogic.CQRS.Product.Commands;
+namespace OfferNegotiatorLogic.CQRS.Product.Commands.Delete;
 
 public class DeleteProductCommandHandler : IRequestHandler<DeleteProductCommand>
 {
