@@ -1,3 +1,4 @@
+using FluentValidation;
 using OfferNegotiatorApi.Configurations;
 using System.Reflection;
 
@@ -10,6 +11,7 @@ builder.Services.AddJwtAuthentication(builder.Configuration);
 builder.Services.AddIdentity();
 builder.Services.AddDbContexts(builder.Configuration);
 builder.Services.AddAutoMapper(Assembly.Load("OfferNegotiatorLogic"));
+builder.Services.AddValidatorsFromAssembly(Assembly.Load("OfferNegotiatorLogic"));
 
 var app = builder.Build();
 
