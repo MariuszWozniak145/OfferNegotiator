@@ -10,9 +10,11 @@ internal class MapProfile : Profile
     public MapProfile()
     {
         CreateMap<Product, ProductReadDTO>();
+        CreateMap<Product, ProductWithOffersReadDTO>();
         CreateMap<ProductCreateDTO, Product>();
 
         CreateMap<Offer, OfferReadDTO>();
+        CreateMap<Offer, OfferWithProductReadDTO>();
         CreateMap<OfferCreateDTO, Offer>();
     }
 }

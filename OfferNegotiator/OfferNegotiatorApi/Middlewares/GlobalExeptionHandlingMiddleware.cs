@@ -39,20 +39,29 @@ public class GlobalExeptionHandlingMiddleware
             message = ex.Message;
             status = HttpStatusCode.BadRequest;
             errors = ex.Errors;
-            stackTrace = ex.StackTrace;
         }
-        else if (exeptionType == typeof(UnauthorizedAccessException))
+        else if (exeptionType == typeof(NotFoundException))
         {
             message = ex.Message;
-            status = HttpStatusCode.Unauthorized;
+            status = HttpStatusCode.NotFound;
             errors = ex.Errors;
-            stackTrace = ex.StackTrace;
+        }
+        else if (exeptionType == typeof(BadRequestException))
+        {
+            message = ex.Message;
+            status = HttpStatusCode.BadRequest;
+            errors = ex.Errors;
+        }
+        else if (exeptionType == typeof(InternalIdentityServerException))
+        {
+            message = ex.Message;
+            status = HttpStatusCode.InternalServerError;
+            errors = ex.Errors;
         }
         else
         {
             message = ex.Message;
             status = HttpStatusCode.InternalServerError;
-            stackTrace = ex.StackTrace;
         }
 
         var response = new ExceptionOccuredReadDTO(message, errors, status);
