@@ -6,6 +6,6 @@ namespace OfferNegotiatorDal.Repositories.Interfaces;
 public interface IProductRepository : IBaseRepository<Product>
 {
     Task<List<Product>> GetAllAsync();
-    Task<Product?> GetByIdWithOffersAsync(Guid id);
+    Task<Product?> GetProductWithOffersAsync(Guid productId);
     Task<List<Product>> GetProductsWithSpecifiedStateAsync(ProductState state);
 }

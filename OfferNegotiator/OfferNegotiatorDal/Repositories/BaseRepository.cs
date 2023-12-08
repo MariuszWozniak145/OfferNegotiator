@@ -1,5 +1,4 @@
-﻿using Microsoft.EntityFrameworkCore;
-using OfferNegotiatorDal.DbContexts;
+﻿using OfferNegotiatorDal.DbContexts;
 using OfferNegotiatorDal.Repositories.Interfaces;
 
 namespace OfferNegotiatorDal.Repositories;

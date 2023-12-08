@@ -15,9 +15,9 @@ public class ProductRepository : BaseRepository<Product>, IProductRepository
         return await _dbContext.Products.ToListAsync();
     }
 
-    public async Task<Product?> GetByIdWithOffersAsync(Guid id)
+    public async Task<Product?> GetProductWithOffersAsync(Guid productId)
     {
-        return await _dbContext.Products.Include(p => p.Offers).SingleOrDefaultAsync(p => p.Id == id);
+        return await _dbContext.Products.Include(p => p.Offers).SingleOrDefaultAsync(p => p.Id == productId);
     }
 
     public async Task<List<Product>> GetProductsWithSpecifiedStateAsync(ProductState state)
