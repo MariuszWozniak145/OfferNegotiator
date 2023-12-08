@@ -1,4 +1,5 @@
-﻿namespace HypeHubDAL.Exeptions;
+﻿namespace OfferNegotiatorDal.Exceptions;
+
 public class BaseException : Exception
 {
     public List<string> Errors { get; set; } = new();

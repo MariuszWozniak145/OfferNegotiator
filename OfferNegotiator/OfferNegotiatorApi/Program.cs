@@ -13,6 +13,7 @@ builder.Services.AddJwtAuthentication(builder.Configuration);
 builder.Services.AddIdentity();
 builder.Services.AddDbContexts(builder.Configuration);
 builder.Services.AddAutoMapper(Assembly.Load("OfferNegotiatorLogic"));
+builder.Services.AddMediatR(configuration => configuration.RegisterServicesFromAssemblies(Assembly.Load("OfferNegotiatorLogic")));
 builder.Services.AddValidatorsFromAssembly(Assembly.Load("OfferNegotiatorLogic"));
 
 var app = builder.Build();

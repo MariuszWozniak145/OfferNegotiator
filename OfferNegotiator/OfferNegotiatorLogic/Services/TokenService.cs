@@ -6,7 +6,7 @@ using System.Globalization;
 using System.Security.Claims;
 using System.Text;
 using System.IdentityModel.Tokens.Jwt;
-using HypeHubDAL.Exeptions;
+using OfferNegotiatorDal.Exceptions;
 
 namespace OfferNegotiatorLogic.Services;
 
@@ -30,7 +30,7 @@ public class TokenService : ITokenService
 
     private JwtSecurityToken CreateJwtToken(List<Claim> claims, SigningCredentials credentials, DateTime expiration) =>
         new(_configuration["JWT:ValidIssuer"], _configuration["JWT:ValidAudience"], claims, expires: expiration, signingCredentials: credentials);
-   
+
     private List<Claim> CreateClaims(IdentityUser user, IList<string> roles)
     {
         try
@@ -63,5 +63,6 @@ public class TokenService : ITokenService
         return new SigningCredentials(new SymmetricSecurityKey(
                 Encoding.UTF8.GetBytes(_configuration["JWT:IssuerSigningKey"])),
                 SecurityAlgorithms.HmacSha256);
+
     }
 }

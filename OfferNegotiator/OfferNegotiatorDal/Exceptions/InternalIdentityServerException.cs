@@ -1,4 +1,5 @@
-﻿namespace HypeHubDAL.Exeptions;
+﻿namespace OfferNegotiatorDal.Exceptions;
+
 public class InternalIdentityServerException : BaseException
 {
     public InternalIdentityServerException(string msg) : base(msg) { }
