@@ -4,6 +4,10 @@ using Microsoft.EntityFrameworkCore;
 using Microsoft.IdentityModel.Tokens;
 using Microsoft.OpenApi.Models;
 using OfferNegotiatorDal.DbContexts;
+using OfferNegotiatorDal.Repositories;
+using OfferNegotiatorDal.Repositories.Interfaces;
+using OfferNegotiatorLogic.Services.Interfaces;
+using OfferNegotiatorLogic.Services;
 using System.Text;
 
 namespace OfferNegotiatorApi.Configurations;
@@ -16,6 +20,17 @@ public static class ServiceCollectionExtension
             options.UseInMemoryDatabase(databaseName: "OfferNegotiator"));
         services.AddDbContext<UsersContext>(options =>
             options.UseInMemoryDatabase(databaseName: "OfferNegotiatorUsers"));
+    }
+
+    public static void AddRepositories(this IServiceCollection services)
+    {
+        services.AddScoped<IProductRepository, ProductRepository>();
+        services.AddScoped<IOfferRepository, OfferRepository>();
+    }
+
+    public static void AddServices(this IServiceCollection services)
+    {
+        services.AddScoped<ITokenService, TokenService>();
     }
 
     public static void AddIdentity(this IServiceCollection services)
