@@ -30,7 +30,7 @@ public class OfferCreateValidator : AbstractValidator<OfferCreateDTO>
 
     private async Task<bool> CheckIfProductExistExist(Guid id, CancellationToken cancellationToken)
     {
-        return await _productRepository.GetProductAsync(id) != null;
+        return await _productRepository.GetByIdAsync(id) != null;
     }
 
     private async Task<bool> CheckIfUserExist(Guid id, CancellationToken cancellationToken)

@@ -24,12 +24,12 @@ if (app.Environment.IsDevelopment())
     app.UseSwaggerUI();
 }
 
-app.SeedOfferNegotiatorDatabase().Wait();
-app.SeedUserDatabase().Wait();
 app.UseHttpsRedirection();
 app.UseAuthentication();
 app.UseAuthorization();
 app.MapControllers();
 app.AddGlobalExeptionsHandler();
+app.SeedOfferNegotiatorDatabase().Wait();
+app.SeedUserDatabase().Wait();
 
 app.Run();

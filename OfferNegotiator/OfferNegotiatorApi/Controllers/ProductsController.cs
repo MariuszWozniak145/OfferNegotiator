@@ -1,6 +1,8 @@
 ﻿using MediatR;
+using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Mvc;
 using OfferNegotiatorDal.Models.Enums;
+using OfferNegotiatorLogic.CQRS.Product.Commands;
 using OfferNegotiatorLogic.CQRS.Product.Queries;
 using OfferNegotiatorLogic.DTOs.Exception;
 using OfferNegotiatorLogic.DTOs.Product;
@@ -108,5 +110,37 @@ public class ProductsController : ControllerBase
     {
         var result = await _mediator.Send(new GetProductWithSpecifiedStateQuery(ProductState.Sold));
         return Ok(result);
+    }
+
+    #region Endpoint Description
+    /// <summary>
+    ///     Deletes an existing product by its unique identifier (id).
+    /// </summary>
+    /// <param name="id">The unique identifier of the product to be deleted.</param>
+    /// <returns>
+    ///     Returns an HTTP 204 (No Content) response upon successful deletion of the product.
+    /// </returns>
+    /// <remarks>
+    ///     This endpoint allows you to delete an existing product by providing the unique identifier ("id") of the product
+    ///     as part of the URL route. To use this endpoint, ensure that you are authenticated with a valid authorization token
+    ///     and you have enough permissions (only the employee can remove the product),
+    ///     as it is secured with the "Authorize" attribute. After successful deletion, a response with an HTTP 204 (No Content)
+    ///     status code will be returned.
+    /// </remarks>
+    /// <response code="204">The product with the specified "id" was successfully deleted, and no content is returned.</response>
+    /// <response code="401">User was unauthorized or JWT was invalid.</response>
+    /// <response code="401">User does not have enough permissions (only the employee can remove the product).</response>
+    /// <response code="404">The product with the specified "id" was not found.</response>
+    [ProducesResponseType(StatusCodes.Status204NoContent)]
+    [ProducesResponseType(StatusCodes.Status401Unauthorized)]
+    [ProducesResponseType(StatusCodes.Status403Forbidden)]
+    [ProducesResponseType(typeof(ExceptionOccuredReadDTO), StatusCodes.Status404NotFound)]
+    #endregion
+    [HttpDelete("{id}")]
+    [Authorize(Roles = "Employee")]
+    public async Task<IActionResult> DeleteProduct(Guid id)
+    {
+        await _mediator.Send(new DeleteProductCommand(id));
+        return NoContent();
     }
 }

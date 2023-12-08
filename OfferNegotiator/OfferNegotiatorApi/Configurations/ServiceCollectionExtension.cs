@@ -68,6 +68,20 @@ public static class ServiceCollectionExtension
                     ValidAudience = configuration["JWT:ValidAudience"],
                     IssuerSigningKey = new SymmetricSecurityKey(Encoding.UTF8.GetBytes(configuration["JWT:IssuerSigningKey"])),
                 };
+
+                options.Events = new JwtBearerEvents
+                {
+                    OnAuthenticationFailed = context =>
+                    {
+                        Console.WriteLine($"Authentication failed: {context.Exception.Message}");
+                        return Task.CompletedTask;
+                    },
+                    OnTokenValidated = context =>
+                    {
+                        Console.WriteLine("Token validated successfully");
+                        return Task.CompletedTask;
+                    }
+                };
             });
     }
 
@@ -85,9 +99,8 @@ public static class ServiceCollectionExtension
                     Email = "mariuszwozniak145@gmail.com",
                 }
             });
+
             var xmlFilename = $"{Assembly.GetExecutingAssembly().GetName().Name}.xml";
-            Console.WriteLine("xmlFilename");
-            Console.WriteLine(xmlFilename);
             option.IncludeXmlComments(Path.Combine(AppContext.BaseDirectory, xmlFilename));
 
             option.AddSecurityDefinition("Bearer", new OpenApiSecurityScheme

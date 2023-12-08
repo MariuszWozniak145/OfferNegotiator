@@ -27,7 +27,7 @@ public class LoginCommandHandler : IRequestHandler<LoginCommand, LoginReadDTO>
         if (!isPasswordValid) throw new WrongCredentialsException("Wrong credentials", new List<string>() { "Wrong password." });
 
         var roles = await _userManager.GetRolesAsync(managedUser);
-
+        foreach (var role in roles) { Console.WriteLine(role); }
         var accessToken = _tokenService.CreateToken(managedUser, roles);
         var userId = Guid.Parse(managedUser.Id);
         return new LoginReadDTO(userId, managedUser.UserName, accessToken);

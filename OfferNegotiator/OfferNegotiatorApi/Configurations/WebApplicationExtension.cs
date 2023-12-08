@@ -33,7 +33,7 @@ public static class WebApplicationExtension
         {
             var user = await userManager.FindByIdAsync(userRole.UserId);
             var role = await roleManager.FindByIdAsync(userRole.RoleId);
-            await userManager.AddToRoleAsync(user, role.Name);
+            var addRoleResult = await userManager.AddToRoleAsync(user, role.Name);
         }
     }
 }

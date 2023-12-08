@@ -23,6 +23,7 @@ public class TokenService : ITokenService
     {
         _ = int.TryParse(_configuration["JWT:TokenValidityInMinutes"], out int expirationMinutes);
         var expiration = DateTime.UtcNow.AddMinutes(expirationMinutes);
+        Console.WriteLine(DateTime.Now);
         var token = CreateJwtToken(CreateClaims(user, roles), CreateSigningCredentials(), expiration);
         var tokenHandler = new JwtSecurityTokenHandler();
         return tokenHandler.WriteToken(token);
@@ -37,7 +38,7 @@ public class TokenService : ITokenService
         {
             var claims = new List<Claim>
             {
-                new Claim("sub", "TokenForTheApiWithAuth"),
+                new Claim(JwtRegisteredClaimNames.Sub, "TokenForTheApiWithAuth"),
                 new Claim(JwtRegisteredClaimNames.Jti, Guid.NewGuid().ToString()),
                 new Claim(JwtRegisteredClaimNames.Iat, DateTime.UtcNow.ToString(CultureInfo.InvariantCulture)),
                 new Claim(ClaimTypes.Name, user.Id),
@@ -63,6 +64,5 @@ public class TokenService : ITokenService
         return new SigningCredentials(new SymmetricSecurityKey(
                 Encoding.UTF8.GetBytes(_configuration["JWT:IssuerSigningKey"])),
                 SecurityAlgorithms.HmacSha256);
-
     }
 }
