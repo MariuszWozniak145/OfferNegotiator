@@ -1,6 +1,9 @@
 ﻿using MediatR;
+using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Mvc;
+using OfferNegotiatorLogic.CQRS.Offers.Commands.Delete;
 using OfferNegotiatorLogic.CQRS.Offers.Queries;
+using OfferNegotiatorLogic.CQRS.Product.Commands.Delete;
 using OfferNegotiatorLogic.DTOs.Exception;
 using OfferNegotiatorLogic.DTOs.Offer;
 
@@ -34,7 +37,7 @@ public class OffersController : ControllerBase
     /// </remarks>
     /// <response code="200">The offers for specified client ad product were successfully retrieved.</response>
     /// <response code="404">Product or client with the specified "id" was not found.</response>
-    [ProducesResponseType(typeof(List<OfferWithProductReadDTO>), StatusCodes.Status200OK)]
+    [ProducesResponseType(typeof(List<OfferReadDTO>), StatusCodes.Status200OK)]
     [ProducesResponseType(typeof(ExceptionOccuredReadDTO), StatusCodes.Status404NotFound)]
     #endregion
     [HttpGet("Product/{productId}/Client/{clientId}")]
@@ -68,5 +71,37 @@ public class OffersController : ControllerBase
     {
         var result = await _mediator.Send(new GetClientOffersQuery(clientId));
         return Ok(result);
+    }
+
+    #region Endpoint Description
+    /// <summary>
+    ///     Deletes an existing offer by its unique identifier (offerId).
+    /// </summary>
+    /// <param name="offerId">The unique identifier of the offer to be deleted.</param>
+    /// <returns>
+    ///     Returns an HTTP 204 (No Content) response upon successful deletion of the offer.
+    /// </returns>
+    /// <remarks>
+    ///     This endpoint allows you to delete an existing offer by providing the unique identifier ("offerId") of the offer
+    ///     as part of the URL route. To use this endpoint, ensure that you are authenticated with a valid authorization token
+    ///     and you have enough permissions (only the employee can delete the offer),
+    ///     as it is secured with the "Authorize" attribute. After successful deletion, a response with an HTTP 204 (No Content)
+    ///     status code will be returned.
+    /// </remarks>
+    /// <response code="204">The offer with the specified "offerId" was successfully deleted and no content is returned.</response>
+    /// <response code="401">User was unauthorized or JWT was invalid.</response>
+    /// <response code="403">User does not have enough permissions (only the employee can delete the product).</response>
+    /// <response code="404">The offer with the specified "offerId" was not found.</response>
+    [ProducesResponseType(StatusCodes.Status204NoContent)]
+    [ProducesResponseType(StatusCodes.Status401Unauthorized)]
+    [ProducesResponseType(StatusCodes.Status403Forbidden)]
+    [ProducesResponseType(typeof(ExceptionOccuredReadDTO), StatusCodes.Status404NotFound)]
+    #endregion
+    [HttpDelete("{offerId}")]
+    [Authorize(Roles = "Employee")]
+    public async Task<IActionResult> DeleteOffer(Guid offerId)
+    {
+        await _mediator.Send(new DeleteOfferCommand(offerId));
+        return NoContent();
     }
 }

@@ -124,13 +124,13 @@ public class ProductsController : ControllerBase
     /// <remarks>
     ///     This endpoint allows you to delete an existing product by providing the unique identifier ("productId") of the product
     ///     as part of the URL route. To use this endpoint, ensure that you are authenticated with a valid authorization token
-    ///     and you have enough permissions (only the employee can remove the product),
+    ///     and you have enough permissions (only the employee can delete the product),
     ///     as it is secured with the "Authorize" attribute. After successful deletion, a response with an HTTP 204 (No Content)
     ///     status code will be returned.
     /// </remarks>
     /// <response code="204">The product with the specified "productId" was successfully deleted and no content is returned.</response>
     /// <response code="401">User was unauthorized or JWT was invalid.</response>
-    /// <response code="403">User does not have enough permissions (only the employee can remove the product).</response>
+    /// <response code="403">User does not have enough permissions (only the employee can delete the product).</response>
     /// <response code="404">The product with the specified "productId" was not found.</response>
     [ProducesResponseType(StatusCodes.Status204NoContent)]
     [ProducesResponseType(StatusCodes.Status401Unauthorized)]
