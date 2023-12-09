@@ -18,4 +18,9 @@ public class OfferRepository : BaseRepository<Offer>, IOfferRepository
     {
         return await _dbContext.Offers.Include(o => o.Product).Where(o => o.ClientId == clientId).ToListAsync();
     }
+
+    public async Task<Offer?> GetOfferWithProductAsync(Guid offerId)
+    {
+        return await _dbContext.Offers.Include(o => o.Product).SingleOrDefaultAsync(o => o.Id == offerId);
+    }
 }

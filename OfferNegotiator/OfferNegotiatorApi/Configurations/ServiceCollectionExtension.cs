@@ -32,6 +32,7 @@ public static class ServiceCollectionExtension
     public static void AddServices(this IServiceCollection services)
     {
         services.AddScoped<ITokenService, TokenService>();
+        services.AddScoped<IOfferService, OfferService>();
     }
 
     public static void AddIdentity(this IServiceCollection services)

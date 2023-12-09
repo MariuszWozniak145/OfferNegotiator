@@ -2,7 +2,6 @@
 
 public record OfferCreateDTO
 (
-    Guid ClientId,
     Guid ProductId,
     decimal Price
 );

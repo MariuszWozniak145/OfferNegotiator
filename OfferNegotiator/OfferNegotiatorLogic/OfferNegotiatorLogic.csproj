@@ -17,8 +17,4 @@
     <ProjectReference Include="..\OfferNegotiatorDal\OfferNegotiatorDal.csproj" />
   </ItemGroup>
 
-  <ItemGroup>
-    <Folder Include="Services\Interfaces\" />
-  </ItemGroup>
-
 </Project>

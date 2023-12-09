@@ -165,7 +165,7 @@ public class ProductsController : ControllerBase
     /// <response code="401">User was unauthorized or JWT was invalid.</response>
     /// <response code="403">User does not have enough permissions (only the employee can create the product).</response>
     /// <response code="500">The error occurred on the server side.</response>
-    [ProducesResponseType(typeof(ProductReadDTO), StatusCodes.Status201Created)]
+    [ProducesResponseType(typeof(ProductWithOffersReadDTO), StatusCodes.Status201Created)]
     [ProducesResponseType(typeof(ExceptionOccuredReadDTO), StatusCodes.Status400BadRequest)]
     [ProducesResponseType(StatusCodes.Status401Unauthorized)]
     [ProducesResponseType(StatusCodes.Status403Forbidden)]
@@ -173,9 +173,9 @@ public class ProductsController : ControllerBase
     #endregion
     [HttpPost]
     [Authorize(Roles = "Employee")]
-    public async Task<IActionResult> CreateOutfit([FromBody] ProductCreateDTO product)
+    public async Task<IActionResult> CreateProduct([FromBody] ProductCreateDTO product)
     {
         var result = await _mediator.Send(new CreateProductCommand(product));
-        return CreatedAtAction(nameof(GetProductWithOffers), new { id = result.Id }, result);
+        return CreatedAtAction(nameof(GetProductWithOffers), new { productId = result.Id }, result);
     }
 }
