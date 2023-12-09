@@ -7,7 +7,6 @@ public record OfferWithProductReadDTO
 (
     Guid Id,
     Guid ClientId,
-    Guid ProductId,
     ProductReadDTO Product,
     decimal Price,
     OfferState State
