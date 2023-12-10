@@ -1,5 +1,4 @@
-﻿
-using OfferNegotiatorApi.Middlewares;
+﻿using OfferNegotiatorApi.Middlewares;
 
 namespace OfferNegotiatorApi.Configurations;
 

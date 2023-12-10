@@ -32,7 +32,7 @@ public static class ServiceCollectionExtension
     public static void AddServices(this IServiceCollection services)
     {
         services.AddScoped<ITokenService, TokenService>();
-        services.AddScoped<IOfferService, OfferService>();
+        services.AddScoped<IBusinessLogic, BusinessLogic>();
     }
 
     public static void AddIdentity(this IServiceCollection services)
@@ -68,20 +68,6 @@ public static class ServiceCollectionExtension
                     ValidIssuer = configuration["JWT:ValidIssuer"],
                     ValidAudience = configuration["JWT:ValidAudience"],
                     IssuerSigningKey = new SymmetricSecurityKey(Encoding.UTF8.GetBytes(configuration["JWT:IssuerSigningKey"])),
-                };
-
-                options.Events = new JwtBearerEvents
-                {
-                    OnAuthenticationFailed = context =>
-                    {
-                        Console.WriteLine($"Authentication failed: {context.Exception.Message}");
-                        return Task.CompletedTask;
-                    },
-                    OnTokenValidated = context =>
-                    {
-                        Console.WriteLine("Token validated successfully");
-                        return Task.CompletedTask;
-                    }
                 };
             });
     }

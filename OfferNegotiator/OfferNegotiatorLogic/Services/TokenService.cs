@@ -23,7 +23,6 @@ public class TokenService : ITokenService
     {
         _ = int.TryParse(_configuration["JWT:TokenValidityInMinutes"], out int expirationMinutes);
         var expiration = DateTime.UtcNow.AddMinutes(expirationMinutes);
-        Console.WriteLine(DateTime.Now);
         var token = CreateJwtToken(CreateClaims(user, roles), CreateSigningCredentials(), expiration);
         var tokenHandler = new JwtSecurityTokenHandler();
         return tokenHandler.WriteToken(token);

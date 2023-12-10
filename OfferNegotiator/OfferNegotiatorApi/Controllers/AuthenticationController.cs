@@ -19,16 +19,16 @@ public class AuthenticationController : ControllerBase
 
     #region Endpoint Description
     /// <summary>
-    /// Logs in a user to their account.
+    ///     Logs in a user to their account.
     /// </summary>
     /// <param name="loginCreateDTO">Data for user login.</param>
     /// <returns>
-    ///   Returns an HTTP 200 (OK) response upon successful user login, along with user authentication data.
+    ///      Returns an HTTP 200 (OK) response upon successful user login along with user authentication data.
     /// </returns>
     /// <remarks>
     ///   This endpoint allows a registered user to log in to their account by providing their login credentials
-    ///   in the request body using the JSON format. After successful login, a response with an HTTP 200 (OK)
-    ///   status code will be returned with user authentication data, such as tokens or user information.
+    ///   in the request body using the JSON format. After successful login a response with an HTTP 200 (OK)
+    ///   status code will be returned with user authentication data such as tokens or user information.
     /// </remarks>
     /// <response code="200">The user was successfully logged in, and user authentication data is returned with JWT and refresh token.</response>
     /// <response code="400">The login request was invalid or the login data is incorrect.</response>
