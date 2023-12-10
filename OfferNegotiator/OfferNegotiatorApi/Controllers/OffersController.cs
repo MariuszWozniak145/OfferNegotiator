@@ -40,7 +40,7 @@ public class OffersController : ControllerBase
     [ProducesResponseType(typeof(OfferWithProductReadDTO), StatusCodes.Status200OK)]
     [ProducesResponseType(typeof(ExceptionOccuredReadDTO), StatusCodes.Status404NotFound)]
     #endregion
-    [HttpGet("/{offerId}/WithProduct")]
+    [HttpGet("{offerId}/WithProduct")]
     public async Task<IActionResult> GetOfferWithProduct(Guid offerId)
     {
         var result = await _mediator.Send(new GetOfferWithProductQuery(offerId));
