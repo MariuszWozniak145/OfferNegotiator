@@ -1,6 +1,7 @@
 using FluentValidation;
 using OfferNegotiatorApi.Configurations;
 using System.Reflection;
+using Serilog;
 
 var builder = WebApplication.CreateBuilder(args);
 
@@ -15,6 +16,7 @@ builder.Services.AddDbContexts(builder.Configuration);
 builder.Services.AddAutoMapper(Assembly.Load("OfferNegotiatorLogic"));
 builder.Services.AddMediatR(configuration => configuration.RegisterServicesFromAssemblies(Assembly.Load("OfferNegotiatorLogic")));
 builder.Services.AddValidatorsFromAssembly(Assembly.Load("OfferNegotiatorLogic"));
+builder.Host.AddSerilog();
 
 var app = builder.Build();
 
@@ -32,4 +34,12 @@ app.AddGlobalExeptionsHandler();
 app.SeedOfferNegotiatorDatabase().Wait();
 app.SeedUserDatabase().Wait();
 
-app.Run();
+try
+{
+    Log.Information("Starting up application.");
+    app.Run();
+}
+catch (Exception ex)
+{
+    Log.Fatal(ex, "Application start-up failed!");
+}
