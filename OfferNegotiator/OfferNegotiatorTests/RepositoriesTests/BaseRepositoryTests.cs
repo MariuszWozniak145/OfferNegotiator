@@ -88,7 +88,7 @@ public class BaseRepositoryTests
     [Test]
     public void AddAsync_AddNull_ThrowsArgumentNullException()
     {
-        // Act
+        // Act & Assert
         Assert.ThrowsAsync<ArgumentNullException>(async () => await _baseRepository.AddAsync(null));
     }
 
@@ -115,7 +115,7 @@ public class BaseRepositoryTests
     [Test]
     public void UpdateAsync_UpdateNull_ThrowsArgumentNullException()
     {
-        // Act
+        // Act & Assert
         Assert.ThrowsAsync<ArgumentNullException>(async () => await _baseRepository.UpdateAsync(null));
     }
 
@@ -136,7 +136,7 @@ public class BaseRepositoryTests
     [Test]
     public void DeleteAsync_DeleteNull_ThrowsArgumentNullException()
     {
-        // Act
+        // Act & Assert
         Assert.ThrowsAsync<ArgumentNullException>(async () => await _baseRepository.DeleteAsync(null));
     }
 }

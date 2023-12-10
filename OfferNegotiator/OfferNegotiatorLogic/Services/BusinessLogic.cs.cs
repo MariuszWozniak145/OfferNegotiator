@@ -69,9 +69,6 @@ public class BusinessLogic : IBusinessLogic
     {
         foreach (var offer in offers)
         {
-            Console.WriteLine("Reeeeeeeeeeeejecting");
-            Console.WriteLine(offer.Id);
-            Console.WriteLine(offer);
             offer.State = OfferState.Rejected;
             await _offerRepository.UpdateAsync(offer);
         }
