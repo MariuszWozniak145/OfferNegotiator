@@ -67,6 +67,7 @@ public class OfferRepositoryTests
         Assert.Multiple(() =>
         {
             Assert.That(result, Is.Not.Null);
+            Assert.That(result, Is.Not.Empty);
             foreach (var offer in result)
             {
                 Assert.That(offer.ClientId, Is.EqualTo(clientId));
@@ -116,6 +117,7 @@ public class OfferRepositoryTests
         Assert.Multiple(() =>
         {
             Assert.That(result, Is.Not.Null);
+            Assert.That(result, Is.Not.Empty);
             foreach (var offer in result)
             {
                 Assert.That(offer.ClientId, Is.EqualTo(clientId));
