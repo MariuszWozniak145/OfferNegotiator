@@ -1,5 +1,5 @@
 name: DAL-Tests
-run-name: ${{ github.actor }} is pushed changes with modifications in DAL layer. 
+run-name: ${{ github.actor }} is pushed changes with modifications in DAL or TESTS layer. 
 on:
   push:
     branches:
