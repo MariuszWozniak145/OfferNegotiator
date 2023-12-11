@@ -2,12 +2,19 @@
 <p>
 - Design based on the CQRS pattern</br>
 - Identity framework and JWT were used for authentication and authorization</br>
-- Entity Framework databases management</br>
+- Entity Framework for databases management</br>
+- CI was implemented using GithubActions</br>
 - Serilog was used for diagnostic logging</br>
 - Unit tests were performed using NUnit</br>
 - FluentValidation, AutoMapper and MediatR were also used in the project</br>
 </p>
-
+<div align="center">
+  <h2>Tests</h2>
+  <p>
+    <a href="https://github.com/MariuszWozniak145/OfferNegotiator/actions/workflows/DAL-Tests.yml"><img src="https://github.com/MariuszWozniak145/OfferNegotiator/actions/workflows/DAL-Tests.yml/badge.svg?branch=main" alt="DAL-Tests"></a>
+    <a href="https://github.com/MariuszWozniak145/OfferNegotiator/actions/workflows/LOGIC-Tests.yml"><img src="https://github.com/MariuszWozniak145/OfferNegotiator/actions/workflows/LOGIC-Tests.yml/badge.svg?branch=main" alt="LOGIC-Tests"></a>
+  </p>
+</div>
 <h2 align="center">Technology stack</h2>
 <p align="center">
   <a href="https://www.w3schools.com/cs/" target="_blank" rel="noreferrer"> <img src="https://raw.githubusercontent.com/devicons/devicon/master/icons/csharp/csharp-original.svg" alt="csharp" width="40" height="40"/></a>
