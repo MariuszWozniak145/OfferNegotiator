@@ -57,7 +57,7 @@ public static class Seeder
         new Product("Product1", 100),
         new Product("Product2", 200),
         new Product("Product3", 300) { State = Models.Enums.ProductState.Sold},
-        new Product("Product3", 400)
+        new Product("Product3", 400) 
     };
 
     public static readonly List<Offer> Offers = new()
