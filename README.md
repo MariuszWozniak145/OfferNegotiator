@@ -1,5 +1,6 @@
 <h1 align="center">OfferNegotiator</h1>
 <p>
+Backend part of application designed to allow negotiation of the product price between the client and the employee.</br>
 - Design based on the CQRS pattern</br>
 - Identity framework and JWT were used for authentication and authorization</br>
 - Entity Framework for databases management</br>
