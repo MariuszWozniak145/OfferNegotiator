@@ -1,11 +1,11 @@
-name: DAL-Tests
-run-name: ${{ github.actor }} is pushed changes with modifications in DAL or TESTS layer. 
+name: LOGIC-Tests
+run-name: ${{ github.actor }} is pushed changes with modifications in LOGIC or TESTS layer. 
 on:
   push:
     branches:
       - main
     paths:
-      - 'OfferNegotiator/OfferNegotiatorDal/**'
+      - 'OfferNegotiator/OfferNegotiatorLogic/**'
       - 'OfferNegotiator/OfferNegotiatorTests/**'
   pull_request:
     branches: [ "main" ]
@@ -26,4 +26,4 @@ jobs:
     - name: Build
       run: dotnet build ./OfferNegotiator/OfferNegotiator.sln --no-restore
     - name: Test
-      run: dotnet test ./OfferNegotiator/OfferNegotiatorTests/OfferNegotiatorTests.csproj --filter FullyQualifiedName~RepositoriesTests --no-build --verbosity normal
+      run: dotnet test ./OfferNegotiator/OfferNegotiatorTests/OfferNegotiatorTests.csproj --filter FullyQualifiedName~ServicesTests --no-build --verbosity normal
