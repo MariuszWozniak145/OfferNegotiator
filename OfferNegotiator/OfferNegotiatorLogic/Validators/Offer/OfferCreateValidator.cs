@@ -10,7 +10,7 @@ public class OfferCreateValidator : AbstractValidator<OfferCreateDTO>
 
     public OfferCreateValidator(IProductRepository productRepository)
     {
-        _productRepository = productRepository;
+        _productRepository = productRepository; 
 
         RuleFor(o => o.ProductId)
             .MustAsync(CheckIfProductExistExist)
