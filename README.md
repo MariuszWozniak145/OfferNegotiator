@@ -9,6 +9,10 @@ Backend part of application designed to allow negotiation of the product price b
 - Unit tests were performed using NUnit</br>
 - FluentValidation, AutoMapper and MediatR were also used in the project</br>
 </p>
+<h2 align="center" id="documentation">Documentation</h2>
+<p align="center">
+  <a align="center" href="https://mariuszwozniak145.github.io/OfferNegotiator/" target="_blank" rel="noreferrer">API</a>
+</p>
 <div align="center">
   <h2>Tests</h2>
   <p>
