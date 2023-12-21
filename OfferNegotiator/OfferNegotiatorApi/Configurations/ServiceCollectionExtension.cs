@@ -84,7 +84,11 @@ public static class ServiceCollectionExtension
                 {
                     Name = "Mariusz Woźniak",
                     Email = "mariuszwozniak145@gmail.com",
-                }
+                },
+                Description = "For testing purposes, the user database has been initialized: \n\n" +
+                "username: \"Employee1\" password: \"Password123\" => role: \"Employee\"\n\n" +
+                "username: \"Client1\" password: \"Password123\" => role: \"Client\"\n\n" +
+                "username: \"Client2\" password: \"Password123\" => role: \"Client\""
             });
 
             var xmlFilename = $"{Assembly.GetExecutingAssembly().GetName().Name}.xml";

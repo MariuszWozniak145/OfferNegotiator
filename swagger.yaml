@@ -1,0 +1,998 @@
+openapi: 3.0.1
+info:
+  title: OfferNegotiator
+  description: |-
+    For testing purposes, the user database has been initialized: 
+
+    username: "Employee1" password: "Password123" => role: "Employee"
+
+    username: "Client1" password: "Password123" => role: "Client"
+
+    username: "Client2" password: "Password123" => role: "Client"
+  contact:
+    name: Mariusz Woźniak
+    email: mariuszwozniak145@gmail.com
+  version: v1
+paths:
+  /api/Authentication/Login:
+    post:
+      tags:
+        - Authentication
+      summary: Logs in a user to their account.
+      description: "This endpoint allows a registered user to log in to their account by providing their login credentials\r\nin the request body using the JSON format. After successful login a response with an HTTP 200 (OK)\r\nstatus code will be returned with user authentication data such as tokens or user information."
+      requestBody:
+        description: Data for user login.
+        content:
+          application/json:
+            schema:
+              $ref: '#/components/schemas/LoginCreateDTO'
+          text/json:
+            schema:
+              $ref: '#/components/schemas/LoginCreateDTO'
+          application/*+json:
+            schema:
+              $ref: '#/components/schemas/LoginCreateDTO'
+      responses:
+        '200':
+          description: >-
+            The user was successfully logged in, and user authentication data is
+            returned with JWT and refresh token.
+          content:
+            text/plain:
+              schema:
+                $ref: '#/components/schemas/LoginReadDTO'
+            application/json:
+              schema:
+                $ref: '#/components/schemas/LoginReadDTO'
+            text/json:
+              schema:
+                $ref: '#/components/schemas/LoginReadDTO'
+        '400':
+          description: The login request was invalid or the login data is incorrect.
+          content:
+            text/plain:
+              schema:
+                $ref: '#/components/schemas/ExceptionOccuredReadDTO'
+            application/json:
+              schema:
+                $ref: '#/components/schemas/ExceptionOccuredReadDTO'
+            text/json:
+              schema:
+                $ref: '#/components/schemas/ExceptionOccuredReadDTO'
+        '500':
+          description: The error occurred on the server side.
+          content:
+            text/plain:
+              schema:
+                $ref: '#/components/schemas/ExceptionOccuredReadDTO'
+            application/json:
+              schema:
+                $ref: '#/components/schemas/ExceptionOccuredReadDTO'
+            text/json:
+              schema:
+                $ref: '#/components/schemas/ExceptionOccuredReadDTO'
+  /api/Offers/{offerId}/WithProduct:
+    get:
+      tags:
+        - Offers
+      summary: Retrieves a offer with a releted product.
+      description: "This endpoint allows to retrieve offer with releted product by providing the unique identifier (\"offerId\")\r\nof the offer as a part of the URL route.\r\nAfter a successful retrieval a response with an HTTP 200 (OK) status code will be\r\nreturned and it will contain the offer with releted product."
+      parameters:
+        - name: offerId
+          in: path
+          description: The unique identifier of the offer to be retrieved.
+          required: true
+          style: simple
+          schema:
+            type: string
+            format: uuid
+      responses:
+        '200':
+          description: The offer with the specified "offerId" was successfully retrieved.
+          content:
+            text/plain:
+              schema:
+                $ref: '#/components/schemas/OfferWithProductReadDTO'
+            application/json:
+              schema:
+                $ref: '#/components/schemas/OfferWithProductReadDTO'
+            text/json:
+              schema:
+                $ref: '#/components/schemas/OfferWithProductReadDTO'
+        '404':
+          description: The offer with the specified "offerId" was not found.
+          content:
+            text/plain:
+              schema:
+                $ref: '#/components/schemas/ExceptionOccuredReadDTO'
+            application/json:
+              schema:
+                $ref: '#/components/schemas/ExceptionOccuredReadDTO'
+            text/json:
+              schema:
+                $ref: '#/components/schemas/ExceptionOccuredReadDTO'
+  /api/Offers/Product/{productId}/Client/{clientId}:
+    get:
+      tags:
+        - Offers
+      summary: Retrieves the offers for specified client and product.
+      description: "This endpoint allows to retrieve offers for specified client and product by providing the unique \r\nidentifiers (\"productId\" and \"clientid\") as a part of the URL route.\r\nAfter a successful retrieval a response with an HTTP 200 (OK) status code will be\r\nreturned and it will contain the offers for specified client and product."
+      parameters:
+        - name: productId
+          in: path
+          description: The unique identifier of the product.
+          required: true
+          style: simple
+          schema:
+            type: string
+            format: uuid
+        - name: clientId
+          in: path
+          description: The unique identifier of the client.
+          required: true
+          style: simple
+          schema:
+            type: string
+            format: uuid
+      responses:
+        '200':
+          description: >-
+            The offers for specified client and product were successfully
+            retrieved.
+          content:
+            text/plain:
+              schema:
+                type: array
+                items:
+                  $ref: '#/components/schemas/OfferReadDTO'
+            application/json:
+              schema:
+                type: array
+                items:
+                  $ref: '#/components/schemas/OfferReadDTO'
+            text/json:
+              schema:
+                type: array
+                items:
+                  $ref: '#/components/schemas/OfferReadDTO'
+        '404':
+          description: Product or client with the specified "id" was not found.
+          content:
+            text/plain:
+              schema:
+                $ref: '#/components/schemas/ExceptionOccuredReadDTO'
+            application/json:
+              schema:
+                $ref: '#/components/schemas/ExceptionOccuredReadDTO'
+            text/json:
+              schema:
+                $ref: '#/components/schemas/ExceptionOccuredReadDTO'
+  /api/Offers/Client/{clientId}:
+    get:
+      tags:
+        - Offers
+      summary: Retrieves the offers for specified client.
+      description: "This endpoint allows to retrieve offers for specified client by providing the unique \r\nidentifier (\"clientid\") of the client as a part of the URL route.\r\nAfter a successful retrieval a response with an HTTP 200 (OK) status code will be\r\nreturned and it will contain the offers for specified client."
+      parameters:
+        - name: clientId
+          in: path
+          description: >-
+            The unique identifier of the client for whom the offers are to be
+            retrieved.
+          required: true
+          style: simple
+          schema:
+            type: string
+            format: uuid
+      responses:
+        '200':
+          description: The offers for specified client were successfully retrieved.
+          content:
+            text/plain:
+              schema:
+                type: array
+                items:
+                  $ref: '#/components/schemas/OfferWithProductReadDTO'
+            application/json:
+              schema:
+                type: array
+                items:
+                  $ref: '#/components/schemas/OfferWithProductReadDTO'
+            text/json:
+              schema:
+                type: array
+                items:
+                  $ref: '#/components/schemas/OfferWithProductReadDTO'
+        '404':
+          description: The client with the specified "clientId" was not found.
+          content:
+            text/plain:
+              schema:
+                $ref: '#/components/schemas/ExceptionOccuredReadDTO'
+            application/json:
+              schema:
+                $ref: '#/components/schemas/ExceptionOccuredReadDTO'
+            text/json:
+              schema:
+                $ref: '#/components/schemas/ExceptionOccuredReadDTO'
+  /api/Offers/{offerId}:
+    delete:
+      tags:
+        - Offers
+      summary: Deletes an existing offer by its unique identifier (offerId).
+      description: "This endpoint allows to delete an existing offer by providing the unique identifier (\"offerId\") of the offer\r\nas part of the URL route. To use this endpoint, ensure that you are authenticated with a valid authorization token\r\nand you have enough permissions (only the employee can delete the offer)\r\nas it is secured with the \"Authorize\" attribute. After successful deletion a response with an HTTP 204 (No Content)\r\nstatus code will be returned."
+      parameters:
+        - name: offerId
+          in: path
+          description: The unique identifier of the offer to be deleted.
+          required: true
+          style: simple
+          schema:
+            type: string
+            format: uuid
+      responses:
+        '204':
+          description: >-
+            The offer with the specified "offerId" was successfully deleted and
+            no content is returned.
+        '401':
+          description: User was unauthorized or JWT was invalid.
+          content:
+            text/plain:
+              schema:
+                $ref: '#/components/schemas/ProblemDetails'
+            application/json:
+              schema:
+                $ref: '#/components/schemas/ProblemDetails'
+            text/json:
+              schema:
+                $ref: '#/components/schemas/ProblemDetails'
+        '403':
+          description: >-
+            User does not have enough permissions (only the employee can delete
+            the offer).
+          content:
+            text/plain:
+              schema:
+                $ref: '#/components/schemas/ProblemDetails'
+            application/json:
+              schema:
+                $ref: '#/components/schemas/ProblemDetails'
+            text/json:
+              schema:
+                $ref: '#/components/schemas/ProblemDetails'
+        '404':
+          description: The offer with the specified "offerId" was not found.
+          content:
+            text/plain:
+              schema:
+                $ref: '#/components/schemas/ExceptionOccuredReadDTO'
+            application/json:
+              schema:
+                $ref: '#/components/schemas/ExceptionOccuredReadDTO'
+            text/json:
+              schema:
+                $ref: '#/components/schemas/ExceptionOccuredReadDTO'
+  /api/Offers:
+    post:
+      tags:
+        - Offers
+      summary: Creates a new offer.
+      description: "This endpoint allows to create a new offer by providing the necessary offer data in the request body using\r\nthe JSON format. To use this endpoint, ensure that you are authenticated with a valid authorization token\r\nand you have enough permissions (only the client can create the offer)\r\nas it is secured with the \"Authorize\" attribute. After successful creation a response with an HTTP 201 (Created) status code\r\nwill be returned and it will include the details of the newly created offer."
+      requestBody:
+        description: Data for creating a new offer.
+        content:
+          application/json:
+            schema:
+              $ref: '#/components/schemas/OfferCreateDTO'
+          text/json:
+            schema:
+              $ref: '#/components/schemas/OfferCreateDTO'
+          application/*+json:
+            schema:
+              $ref: '#/components/schemas/OfferCreateDTO'
+      responses:
+        '201':
+          description: The new offer was successfully created and its details are returned.
+          content:
+            text/plain:
+              schema:
+                $ref: '#/components/schemas/OfferWithProductReadDTO'
+            application/json:
+              schema:
+                $ref: '#/components/schemas/OfferWithProductReadDTO'
+            text/json:
+              schema:
+                $ref: '#/components/schemas/OfferWithProductReadDTO'
+        '400':
+          description: >-
+            The creation request was invalid or the offer data is incorrect or
+            client reached offers limit.
+          content:
+            text/plain:
+              schema:
+                $ref: '#/components/schemas/ExceptionOccuredReadDTO'
+            application/json:
+              schema:
+                $ref: '#/components/schemas/ExceptionOccuredReadDTO'
+            text/json:
+              schema:
+                $ref: '#/components/schemas/ExceptionOccuredReadDTO'
+        '401':
+          description: User was unauthorized or JWT was invalid.
+          content:
+            text/plain:
+              schema:
+                $ref: '#/components/schemas/ProblemDetails'
+            application/json:
+              schema:
+                $ref: '#/components/schemas/ProblemDetails'
+            text/json:
+              schema:
+                $ref: '#/components/schemas/ProblemDetails'
+        '403':
+          description: >-
+            User does not have enough permissions (only the client can create
+            the offer).
+          content:
+            text/plain:
+              schema:
+                $ref: '#/components/schemas/ProblemDetails'
+            application/json:
+              schema:
+                $ref: '#/components/schemas/ProblemDetails'
+            text/json:
+              schema:
+                $ref: '#/components/schemas/ProblemDetails'
+        '500':
+          description: The error occurred on the server side.
+          content:
+            text/plain:
+              schema:
+                $ref: '#/components/schemas/ExceptionOccuredReadDTO'
+            application/json:
+              schema:
+                $ref: '#/components/schemas/ExceptionOccuredReadDTO'
+            text/json:
+              schema:
+                $ref: '#/components/schemas/ExceptionOccuredReadDTO'
+  /api/Offers/{offerId}/Accept:
+    patch:
+      tags:
+        - Offers
+      summary: Accepts an existing offer by its unique identifier (offerId).
+      description: "This endpoint allows to accept an existing offer by providing the unique identifier (\"offerId\") of the offer\r\nas part of the URL route. To use this endpoint, ensure that you are authenticated with a valid authorization token\r\nand you have enough permissions (only the employee can accept the offer)\r\nas it is secured with the \"Authorize\" attribute.\r\nAfter a successful acceptance of the offer a response with an HTTP 200 (OK) status code will be\r\nreturned and it will contain accepted offer with related product."
+      parameters:
+        - name: offerId
+          in: path
+          description: The unique identifier of the offer to be accepted.
+          required: true
+          style: simple
+          schema:
+            type: string
+            format: uuid
+      responses:
+        '200':
+          description: The offer with the specified "offerId" was successfully accepted.
+          content:
+            text/plain:
+              schema:
+                $ref: '#/components/schemas/OfferReadDTO'
+            application/json:
+              schema:
+                $ref: '#/components/schemas/OfferReadDTO'
+            text/json:
+              schema:
+                $ref: '#/components/schemas/OfferReadDTO'
+        '400':
+          description: >-
+            The offer with the specified "offerId" can not be accepted because
+            product is not available.
+          content:
+            text/plain:
+              schema:
+                $ref: '#/components/schemas/ExceptionOccuredReadDTO'
+            application/json:
+              schema:
+                $ref: '#/components/schemas/ExceptionOccuredReadDTO'
+            text/json:
+              schema:
+                $ref: '#/components/schemas/ExceptionOccuredReadDTO'
+        '401':
+          description: User was unauthorized or JWT was invalid.
+          content:
+            text/plain:
+              schema:
+                $ref: '#/components/schemas/ProblemDetails'
+            application/json:
+              schema:
+                $ref: '#/components/schemas/ProblemDetails'
+            text/json:
+              schema:
+                $ref: '#/components/schemas/ProblemDetails'
+        '403':
+          description: >-
+            User does not have enough permissions (only the employee can accept
+            the offer).
+          content:
+            text/plain:
+              schema:
+                $ref: '#/components/schemas/ProblemDetails'
+            application/json:
+              schema:
+                $ref: '#/components/schemas/ProblemDetails'
+            text/json:
+              schema:
+                $ref: '#/components/schemas/ProblemDetails'
+        '404':
+          description: The offer with the specified "offerId" was not found.
+          content:
+            text/plain:
+              schema:
+                $ref: '#/components/schemas/ExceptionOccuredReadDTO'
+            application/json:
+              schema:
+                $ref: '#/components/schemas/ExceptionOccuredReadDTO'
+            text/json:
+              schema:
+                $ref: '#/components/schemas/ExceptionOccuredReadDTO'
+  /api/Offers/{offerId}/Reject:
+    patch:
+      tags:
+        - Offers
+      summary: Reject an existing offer by its unique identifier (offerId).
+      description: "This endpoint allows to reject an existing offer by providing the unique identifier (\"offerId\") of the offer\r\nas part of the URL route. To use this endpoint ensure that you are authenticated with a valid authorization token\r\nand you have enough permissions (only the employee can reject the offer)\r\nas it is secured with the \"Authorize\" attribute.\r\nAfter a successful rejection of the offer a response with an HTTP 200 (OK) status code will be\r\nreturned and it will contain rejected offer with related product."
+      parameters:
+        - name: offerId
+          in: path
+          description: The unique identifier of the offer to be rejected.
+          required: true
+          style: simple
+          schema:
+            type: string
+            format: uuid
+      responses:
+        '200':
+          description: The offer with the specified "offerId" was successfully rejected.
+          content:
+            text/plain:
+              schema:
+                $ref: '#/components/schemas/OfferReadDTO'
+            application/json:
+              schema:
+                $ref: '#/components/schemas/OfferReadDTO'
+            text/json:
+              schema:
+                $ref: '#/components/schemas/OfferReadDTO'
+        '400':
+          description: >-
+            The offer with the specified "offerId" cannot be rejected because it
+            has an accepted status.
+          content:
+            text/plain:
+              schema:
+                $ref: '#/components/schemas/ExceptionOccuredReadDTO'
+            application/json:
+              schema:
+                $ref: '#/components/schemas/ExceptionOccuredReadDTO'
+            text/json:
+              schema:
+                $ref: '#/components/schemas/ExceptionOccuredReadDTO'
+        '401':
+          description: User was unauthorized or JWT was invalid.
+          content:
+            text/plain:
+              schema:
+                $ref: '#/components/schemas/ProblemDetails'
+            application/json:
+              schema:
+                $ref: '#/components/schemas/ProblemDetails'
+            text/json:
+              schema:
+                $ref: '#/components/schemas/ProblemDetails'
+        '403':
+          description: >-
+            User does not have enough permissions (only the employee can reject
+            the offer).
+          content:
+            text/plain:
+              schema:
+                $ref: '#/components/schemas/ProblemDetails'
+            application/json:
+              schema:
+                $ref: '#/components/schemas/ProblemDetails'
+            text/json:
+              schema:
+                $ref: '#/components/schemas/ProblemDetails'
+        '404':
+          description: The offer with the specified "offerId" was not found.
+          content:
+            text/plain:
+              schema:
+                $ref: '#/components/schemas/ExceptionOccuredReadDTO'
+            application/json:
+              schema:
+                $ref: '#/components/schemas/ExceptionOccuredReadDTO'
+            text/json:
+              schema:
+                $ref: '#/components/schemas/ExceptionOccuredReadDTO'
+  /api/Products:
+    get:
+      tags:
+        - Products
+      summary: Retrieves the products.
+      description: "This endpoint allows to retrieve products.\r\nAfter a successful retrieval a response with an HTTP 200 (OK) status code will be\r\nreturned and it will contain the products."
+      responses:
+        '200':
+          description: The products were successfully retrieved.
+          content:
+            text/plain:
+              schema:
+                type: array
+                items:
+                  $ref: '#/components/schemas/ProductReadDTO'
+            application/json:
+              schema:
+                type: array
+                items:
+                  $ref: '#/components/schemas/ProductReadDTO'
+            text/json:
+              schema:
+                type: array
+                items:
+                  $ref: '#/components/schemas/ProductReadDTO'
+    post:
+      tags:
+        - Products
+      summary: Creates a new product.
+      description: "This endpoint allows to create a new product by providing the necessary product data in the request body using\r\nthe JSON format. To use this endpoint ensure that you are authenticated with a valid authorization token\r\nand you have enough permissions (only the employee can create the product)  \r\nas it is secured with the \"Authorize\" attribute. After successful creation a response with an HTTP 201 (Created) status code\r\nwill be returned and it will include the details of the newly created product."
+      requestBody:
+        description: Data for creating a new product.
+        content:
+          application/json:
+            schema:
+              $ref: '#/components/schemas/ProductCreateDTO'
+          text/json:
+            schema:
+              $ref: '#/components/schemas/ProductCreateDTO'
+          application/*+json:
+            schema:
+              $ref: '#/components/schemas/ProductCreateDTO'
+      responses:
+        '201':
+          description: >-
+            The new product was successfully created and its details are
+            returned.
+          content:
+            text/plain:
+              schema:
+                $ref: '#/components/schemas/ProductWithOffersReadDTO'
+            application/json:
+              schema:
+                $ref: '#/components/schemas/ProductWithOffersReadDTO'
+            text/json:
+              schema:
+                $ref: '#/components/schemas/ProductWithOffersReadDTO'
+        '400':
+          description: The creation request was invalid or the product data is incomplete.
+          content:
+            text/plain:
+              schema:
+                $ref: '#/components/schemas/ExceptionOccuredReadDTO'
+            application/json:
+              schema:
+                $ref: '#/components/schemas/ExceptionOccuredReadDTO'
+            text/json:
+              schema:
+                $ref: '#/components/schemas/ExceptionOccuredReadDTO'
+        '401':
+          description: User was unauthorized or JWT was invalid.
+          content:
+            text/plain:
+              schema:
+                $ref: '#/components/schemas/ProblemDetails'
+            application/json:
+              schema:
+                $ref: '#/components/schemas/ProblemDetails'
+            text/json:
+              schema:
+                $ref: '#/components/schemas/ProblemDetails'
+        '403':
+          description: >-
+            User does not have enough permissions (only the employee can create
+            the product).
+          content:
+            text/plain:
+              schema:
+                $ref: '#/components/schemas/ProblemDetails'
+            application/json:
+              schema:
+                $ref: '#/components/schemas/ProblemDetails'
+            text/json:
+              schema:
+                $ref: '#/components/schemas/ProblemDetails'
+        '500':
+          description: The error occurred on the server side.
+          content:
+            text/plain:
+              schema:
+                $ref: '#/components/schemas/ExceptionOccuredReadDTO'
+            application/json:
+              schema:
+                $ref: '#/components/schemas/ExceptionOccuredReadDTO'
+            text/json:
+              schema:
+                $ref: '#/components/schemas/ExceptionOccuredReadDTO'
+  /api/Products/{productId}/WithOffers:
+    get:
+      tags:
+        - Products
+      summary: Retrieves a product with its offers.
+      description: "This endpoint allows to retrieve product with its offers by providing the unique identifier (\"productId\")\r\nof the product as a part of the URL route.\r\nAfter a successful retrieval a response with an HTTP 200 (OK) status code will be\r\nreturned and it will contain the product with its offers."
+      parameters:
+        - name: productId
+          in: path
+          description: The unique identifier of the product to be retrieved.
+          required: true
+          style: simple
+          schema:
+            type: string
+            format: uuid
+      responses:
+        '200':
+          description: >-
+            The product with the specified "productId" and its offers were
+            successfully retrieved.
+          content:
+            text/plain:
+              schema:
+                $ref: '#/components/schemas/ProductWithOffersReadDTO'
+            application/json:
+              schema:
+                $ref: '#/components/schemas/ProductWithOffersReadDTO'
+            text/json:
+              schema:
+                $ref: '#/components/schemas/ProductWithOffersReadDTO'
+        '404':
+          description: The product with the specified "productId" was not found.
+          content:
+            text/plain:
+              schema:
+                $ref: '#/components/schemas/ExceptionOccuredReadDTO'
+            application/json:
+              schema:
+                $ref: '#/components/schemas/ExceptionOccuredReadDTO'
+            text/json:
+              schema:
+                $ref: '#/components/schemas/ExceptionOccuredReadDTO'
+  /api/Products/Available:
+    get:
+      tags:
+        - Products
+      summary: Retrieves the available products.
+      description: "This endpoint allows to retrieve available products.\r\nAfter a successful retrieval a response with an HTTP 200 (OK) status code will be\r\nreturned and it will contain the available products."
+      responses:
+        '200':
+          description: The available products were successfully retrieved.
+          content:
+            text/plain:
+              schema:
+                $ref: '#/components/schemas/ProductWithOffersReadDTO'
+            application/json:
+              schema:
+                $ref: '#/components/schemas/ProductWithOffersReadDTO'
+            text/json:
+              schema:
+                $ref: '#/components/schemas/ProductWithOffersReadDTO'
+  /api/Products/Sold:
+    get:
+      tags:
+        - Products
+      summary: Retrieves the sold products.
+      description: "This endpoint allows to retrieve sold products.\r\nAfter a successful retrieval a response with an HTTP 200 (OK) status code will be\r\nreturned and it will contain the sold products."
+      responses:
+        '200':
+          description: The sold products were successfully retrieved.
+          content:
+            text/plain:
+              schema:
+                $ref: '#/components/schemas/ProductWithOffersReadDTO'
+            application/json:
+              schema:
+                $ref: '#/components/schemas/ProductWithOffersReadDTO'
+            text/json:
+              schema:
+                $ref: '#/components/schemas/ProductWithOffersReadDTO'
+  /api/Products/{productId}:
+    delete:
+      tags:
+        - Products
+      summary: Deletes an existing product by its unique identifier (productId).
+      description: "This endpoint allows to delete an existing product by providing the unique identifier (\"productId\") of the product\r\nas part of the URL route. To use this endpoint ensure that you are authenticated with a valid authorization token\r\nand you have enough permissions (only the employee can delete the product)\r\nas it is secured with the \"Authorize\" attribute. After successful deletion a response with an HTTP 204 (No Content)\r\nstatus code will be returned."
+      parameters:
+        - name: productId
+          in: path
+          description: The unique identifier of the product to be deleted.
+          required: true
+          style: simple
+          schema:
+            type: string
+            format: uuid
+      responses:
+        '204':
+          description: >-
+            The product with the specified "productId" was successfully deleted
+            and no content is returned.
+        '401':
+          description: User was unauthorized or JWT was invalid.
+          content:
+            text/plain:
+              schema:
+                $ref: '#/components/schemas/ProblemDetails'
+            application/json:
+              schema:
+                $ref: '#/components/schemas/ProblemDetails'
+            text/json:
+              schema:
+                $ref: '#/components/schemas/ProblemDetails'
+        '403':
+          description: >-
+            User does not have enough permissions (only the employee can delete
+            the product).
+          content:
+            text/plain:
+              schema:
+                $ref: '#/components/schemas/ProblemDetails'
+            application/json:
+              schema:
+                $ref: '#/components/schemas/ProblemDetails'
+            text/json:
+              schema:
+                $ref: '#/components/schemas/ProblemDetails'
+        '404':
+          description: The product with the specified "productId" was not found.
+          content:
+            text/plain:
+              schema:
+                $ref: '#/components/schemas/ExceptionOccuredReadDTO'
+            application/json:
+              schema:
+                $ref: '#/components/schemas/ExceptionOccuredReadDTO'
+            text/json:
+              schema:
+                $ref: '#/components/schemas/ExceptionOccuredReadDTO'
+components:
+  schemas:
+    ExceptionOccuredReadDTO:
+      type: object
+      properties:
+        msg:
+          type: string
+          nullable: true
+        errors:
+          type: array
+          items:
+            type: string
+          nullable: true
+        statusCode:
+          $ref: '#/components/schemas/HttpStatusCode'
+      additionalProperties: false
+    HttpStatusCode:
+      enum:
+        - 100
+        - 101
+        - 102
+        - 103
+        - 200
+        - 201
+        - 202
+        - 203
+        - 204
+        - 205
+        - 206
+        - 207
+        - 208
+        - 226
+        - 300
+        - 301
+        - 302
+        - 303
+        - 304
+        - 305
+        - 306
+        - 307
+        - 308
+        - 400
+        - 401
+        - 402
+        - 403
+        - 404
+        - 405
+        - 406
+        - 407
+        - 408
+        - 409
+        - 410
+        - 411
+        - 412
+        - 413
+        - 414
+        - 415
+        - 416
+        - 417
+        - 421
+        - 422
+        - 423
+        - 424
+        - 426
+        - 428
+        - 429
+        - 431
+        - 451
+        - 500
+        - 501
+        - 502
+        - 503
+        - 504
+        - 505
+        - 506
+        - 507
+        - 508
+        - 510
+        - 511
+      type: integer
+      format: int32
+    LoginCreateDTO:
+      type: object
+      properties:
+        username:
+          type: string
+          nullable: true
+        password:
+          type: string
+          nullable: true
+      additionalProperties: false
+    LoginReadDTO:
+      type: object
+      properties:
+        userId:
+          type: string
+          format: uuid
+        userName:
+          type: string
+          nullable: true
+        accessToken:
+          type: string
+          nullable: true
+      additionalProperties: false
+    OfferCreateDTO:
+      type: object
+      properties:
+        productId:
+          type: string
+          format: uuid
+        price:
+          type: number
+          format: double
+      additionalProperties: false
+    OfferReadDTO:
+      type: object
+      properties:
+        id:
+          type: string
+          format: uuid
+        clientId:
+          type: string
+          format: uuid
+        productId:
+          type: string
+          format: uuid
+        price:
+          type: number
+          format: double
+        state:
+          $ref: '#/components/schemas/OfferState'
+      additionalProperties: false
+    OfferState:
+      enum:
+        - 0
+        - 1
+        - 2
+      type: integer
+      format: int32
+    OfferWithProductReadDTO:
+      type: object
+      properties:
+        id:
+          type: string
+          format: uuid
+        clientId:
+          type: string
+          format: uuid
+        product:
+          $ref: '#/components/schemas/ProductReadDTO'
+        price:
+          type: number
+          format: double
+        state:
+          $ref: '#/components/schemas/OfferState'
+      additionalProperties: false
+    ProblemDetails:
+      type: object
+      properties:
+        type:
+          type: string
+          nullable: true
+        title:
+          type: string
+          nullable: true
+        status:
+          type: integer
+          format: int32
+          nullable: true
+        detail:
+          type: string
+          nullable: true
+        instance:
+          type: string
+          nullable: true
+      additionalProperties: {}
+    ProductCreateDTO:
+      type: object
+      properties:
+        name:
+          type: string
+          nullable: true
+        price:
+          type: number
+          format: double
+      additionalProperties: false
+    ProductReadDTO:
+      type: object
+      properties:
+        id:
+          type: string
+          format: uuid
+        name:
+          type: string
+          nullable: true
+        price:
+          type: number
+          format: double
+        state:
+          $ref: '#/components/schemas/ProductState'
+      additionalProperties: false
+    ProductState:
+      enum:
+        - 0
+        - 1
+      type: integer
+      format: int32
+    ProductWithOffersReadDTO:
+      type: object
+      properties:
+        id:
+          type: string
+          format: uuid
+        name:
+          type: string
+          nullable: true
+        price:
+          type: number
+          format: double
+        state:
+          $ref: '#/components/schemas/ProductState'
+        offers:
+          type: array
+          items:
+            $ref: '#/components/schemas/OfferReadDTO'
+          nullable: true
+      additionalProperties: false
+  securitySchemes:
+    Bearer:
+      type: http
+      description: Please enter a valid token
+      scheme: bearer
+      bearerFormat: JWT
+security:
+  - Bearer: []
